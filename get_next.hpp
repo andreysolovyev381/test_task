@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <concepts>
 #include <vector>
 #include <queue>
 #include <utility>
@@ -64,16 +65,17 @@ namespace itertools {
 
 }//!namespace
 
-using namespace itertools;
 
-template <IsList List, typename... IteratorPairs>
-requires (std::same_as<IterPair<List>, IteratorPairs>, ...)
+template <itertools::IsList List, typename... IteratorPairs>
+requires (std::same_as<itertools::IterPair<List>, IteratorPairs>, ...)
 /**
  * @dev
  * the nex requirement is a part of task statement, see "readme.md"
  * */
 && (requires {requires sizeof...(IteratorPairs) == 3u;} )
-Iter<List> GetNext(IteratorPairs& ...pairs) {
+itertools::Iter<List> GetNext(IteratorPairs& ...pairs) {
+	using namespace itertools;
+
 	auto do_nothing = [](){ /* do nothing */};
 
 	auto cmp = [](IterPair<List> lhs, IterPair<List> rhs){

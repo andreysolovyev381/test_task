@@ -11,6 +11,8 @@
 
 //#define COMPILE_TIME_FAILURE
 
+using namespace itertools;
+
 using NumericListTypes = testing::Types<
 		std::vector<int>,
 		std::list<int>,

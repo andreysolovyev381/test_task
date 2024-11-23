@@ -11,25 +11,25 @@ else()
     message(STATUS "TESTS: NOT FOUND GTest")
 endif()
 
-set(EXECUTABLE_NAME tse_tests)
+set(EXECUTABLE_NAME test_task)
 
 add_executable(${EXECUTABLE_NAME}
         main.cpp
 )
 
-target_include_directories(${EXECUTABLE_NAME}
-        PUBLIC
-)
-
-target_link_directories(${EXECUTABLE_NAME}
-        PUBLIC
+add_compile_options(
+        -march=native
+        -Wall
+        -Werror
+        -Wextra
+        -Wpedantic
 )
 
 target_link_libraries(${EXECUTABLE_NAME}
         PUBLIC
         GTest::GTest
-        pthread
 )
+
 target_compile_definitions(${EXECUTABLE_NAME}
         PUBLIC
         EXECUTABLE_NAME="${EXECUTABLE_NAME}"
