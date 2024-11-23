@@ -29,11 +29,3 @@ target_link_libraries(${EXECUTABLE_NAME}
         PUBLIC
         GTest::GTest
 )
-
-target_compile_definitions(${EXECUTABLE_NAME}
-        PUBLIC
-        EXECUTABLE_NAME="${EXECUTABLE_NAME}"
-        CMAKE_SOURCE_DIR="${CMAKE_SOURCE_DIR}"
-)
-
-

@@ -11,12 +11,12 @@
 
 namespace itertools {
 
-	template<typename L>
-	concept IsList = requires(L l) {
-		l.begin();
-		l.end();
-		typename L::value_type;
-		typename L::iterator;
+	template<typename MaybeList>
+	concept IsList = requires(MaybeList maybeList) {
+		maybeList.begin();
+		maybeList.end();
+		typename MaybeList::value_type;
+		typename MaybeList::iterator;
 	};
 
 	template<IsList List>
@@ -26,7 +26,7 @@ namespace itertools {
 	using IterPair = std::pair<Iter<List>, Iter<List>>;
 
 	template<IsList List>
-	auto isOk = [](IterPair<List> p){
+	auto isDeferencable = [](IterPair<List> p){
 		return p.first != p.second;
 	};
 
@@ -93,12 +93,11 @@ itertools::Iter<List> GetNext(IteratorPairs& ...pairs) {
 	 */
 	static PQ pq;
 
-	((isOk<List>(pairs) ? pq.push(pairs) : do_nothing()),...);
+	((isDeferencable<List>(pairs) ? pq.push(pairs) : do_nothing()),...);
 	if (pq.empty()) return sentinel<List>;
 	auto [nextIter, _] = pq.top();
 	while(!pq.empty()) pq.pop();
 	((nextIter == pairs.first ? ++pairs.first : sentinel<List>),...);
-
 
 	return nextIter;
 }
