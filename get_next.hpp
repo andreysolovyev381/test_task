@@ -26,7 +26,7 @@ namespace itertools {
 	using IterPair = std::pair<Iter<List>, Iter<List>>;
 
 	template<IsList List>
-	auto isDeferencable = [](IterPair<List> p){
+	auto isDereferencable = [](IterPair<List> p){
 		return p.first != p.second;
 	};
 
@@ -70,7 +70,7 @@ template <itertools::IsList List, typename... IteratorPairs>
 requires (std::same_as<itertools::IterPair<List>, IteratorPairs>, ...)
 /**
  * @dev
- * the nex requirement is a part of task statement, see "readme.md"
+ * the next requirement is a part of task statement, see "readme.md"
  * */
 && (requires {requires sizeof...(IteratorPairs) == 3u;} )
 itertools::Iter<List> GetNext(IteratorPairs& ...pairs) {
@@ -78,22 +78,23 @@ itertools::Iter<List> GetNext(IteratorPairs& ...pairs) {
 
 	auto do_nothing = [](){ /* do nothing */};
 
-	auto cmp = [](IterPair<List> lhs, IterPair<List> rhs){
+	using CmpType = decltype([](IterPair<List> lhs, IterPair<List> rhs){
 		return
 			keyExtractor.template dereferenceIter<List>(lhs.first) >
 			keyExtractor.template dereferenceIter<List>(rhs.first);
-	};
+	});
 
-	using PQ = std::priority_queue<IterPair<List>, std::vector<IterPair<List>>, decltype(cmp)>;
+	using PQ = std::priority_queue<IterPair<List>, std::vector<IterPair<List>>, CmpType>;
 
 	/**
 	 * @dev
 	 * This PQ can be undone "static" or can be placed at arena using std::pmr.
-	 * Currently it is "static" to avoid calling "new" every func call, that may be expensive.
+	 * Currently it is "static" to avoid calling "new" every func call, that may be expensive in this context.
+	 * Indeed, it turns out to be thread unsafe.
 	 */
 	static PQ pq;
 
-	((isDeferencable<List>(pairs) ? pq.push(pairs) : do_nothing()),...);
+	((isDereferencable<List>(pairs) ? pq.push(pairs) : do_nothing()),...);
 	if (pq.empty()) return sentinel<List>;
 	auto [nextIter, _] = pq.top();
 	while(!pq.empty()) pq.pop();

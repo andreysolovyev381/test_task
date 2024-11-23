@@ -24,6 +24,7 @@ Requirements:
 * It is a bit unclear what is hidden behind of **List**, so I have decided to tackle this requirement wide. Therefore, this implementation is complete in a sense that there is no need to modify it if there is an update in Task Statement:
   - It will work with any container, that can be thought of as ascending **Disjoint Sorted List**.
   - It will work with any number of arguments.
-  - It is easily estendable for arbitrary set of containers.
+
+  Besides, It is easily extendable for arbitrary set of containers.
 * It uses Binary Heap data structure to bubble up the next element out of a arguments pack, but follows the Task Statement that requires to refrain from building up a joint set.
 
