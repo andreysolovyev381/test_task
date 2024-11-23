@@ -90,7 +90,7 @@ itertools::Iter<List> GetNext(IteratorPairs& ...pairs) {
 	 * @dev
 	 * This PQ can be undone "static" or can be placed at arena using std::pmr.
 	 * Currently it is "static" to avoid calling "new" every func call, that may be expensive in this context.
-	 * Indeed, it turns out to be thread unsafe.
+	 * 
 	 */
 	static PQ pq;
 
