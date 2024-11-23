@@ -20,9 +20,9 @@ Requirements:
 ##### Imlementation details
 * There are two files - ```main.cpp``` contains tests, and ```get_next.hpp``` contains implementation.
 * C++20, GCC 14.1, Google Test as a dependency, see respective ```CMakeLists.txt```
-* I understand it is a test task, but usually we use objects - structs and classes to deal with stateful entities. However, once there is a requirement to provide a function, it is reasonable to keep a state on a side of a callee - see the tests for usage examples.  
+* I understand it is a test task, but usually we use objects - structs and classes to deal with stateful entities. However, once there is a requirement to provide a function, it is reasonable to keep a state on a side of a caller - see the tests for usage examples.  
 * It is a bit unclear what is hidden behind of **List**, so I have decided to tackle this requirement wide. Therefore, this implementation is complete in a sense that there is no need to modify it if there is an update in Task Statement:
-  - It will work with any container, that can be thought of as **Disjoint Sorted List**.
+  - It will work with any container, that can be thought of as ascending **Disjoint Sorted List**.
   - It will work with any number of arguments.
   - It is easily estendable for arbitrary set of containers.
 * It uses Binary Heap data structure to bubble up the next element out of a arguments pack, but follows the Task Statement that requires to refrain from building up a joint set.
